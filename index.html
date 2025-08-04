@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=https://nxapi-auth.fancy.org.uk/@fatlum">
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>If you are not redirected automatically, click <a href="https://guns.lol/fatlum">here</a>.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ItsFatlum</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="background-blur"></div>
+
+  <main class="container">
+    <header>
+      <div class="avatar-box">
+        <img id="discord-avatar" src="" alt="Discord Avatar" />
+        <div id="discord-status" class="status"></div>
+      </div>
+      <nav class="nav-buttons">
+        <button data-route="/">About Me</button>
+        <button data-route="/socials">Socials</button>
+        <button data-route="/nintendo">Nintendo</button>
+        <button data-route="/tab4">Tab 4</button>
+        <button data-route="/tab5">Tab 5</button>
+        <button data-route="/tab6">Tab 6</button>
+      </nav>
+    </header>
+
+    <section id="route-content">
+      <!-- Section content injected here based on route -->
+    </section>
+  </main>
+
+  <footer>
+    <p>Made by Fatlum • Theme Color: #144834</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
 </html>
