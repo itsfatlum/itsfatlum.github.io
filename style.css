@@ -1,0 +1,98 @@
+/* === Global Styles === */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+#background-blur {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif') center center / cover no-repeat;
+  filter: blur(8px) brightness(0.5);
+  z-index: -1;
+}
+
+.container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* === Header / Avatar === */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.avatar-box {
+  position: relative;
+  display: inline-block;
+}
+
+#discord-avatar {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 4px solid #144834;
+  background: #222;
+}
+
+.status {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #7fffaf;
+}
+
+/* === Online/Offline Status Colors === */
+.online {
+  color: #00ff88;
+}
+.offline {
+  color: #ff4e4e;
+}
+
+/* === Navigation Buttons === */
+.nav-buttons {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.nav-buttons button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #144834;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.nav-buttons button:hover {
+  background-color: #1c5a44;
+}
+
+/* === Route Content Section === */
+#route-content {
+  background: rgba(20, 72, 52, 0.2);
+  border: 1px solid #144834;
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(5px);
+  margin-top: 2rem;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 0.85rem;
+  color: #bbb;
+}
