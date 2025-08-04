@@ -38,7 +38,7 @@ fetch('https://api.lanyard.rest/v1/users/563697359423406082')
 // === Nintendo Presence Loader ===
 function loadNintendoPresence() {
   const out = document.getElementById('nintendo-output');
-  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9/events?include-splatoon3=1')
+  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9s?include-splatoon3=1')
     .then(res => res.json())
     .then(data => {
       const latest = data?.events?.[0];
