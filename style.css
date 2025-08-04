@@ -39,6 +39,7 @@ header {
   border-radius: 50%;
   border: 4px solid #144834;
   background: #222;
+  object-fit: cover;
 }
 
 .status {
@@ -87,6 +88,7 @@ header {
   padding: 1.5rem;
   backdrop-filter: blur(5px);
   margin-top: 2rem;
+  min-height: 200px;
 }
 
 /* === Footer === */
