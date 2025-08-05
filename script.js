@@ -1,3 +1,51 @@
+// === TAB SWITCHING ===
+const tabs = document.querySelectorAll('.nav-buttons button');
+const sections = document.querySelectorAll('.tab-section');
+
+tabs.forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedTab = button.getAttribute('data-tab');
+
+    // Show only the selected tab
+    sections.forEach(section => {
+      section.classList.toggle('active', section.id === selectedTab);
+    });
+
+    // Load Nintendo data if selected
+    if (selectedTab === 'nintendo') {
+      loadNintendoPresence();
+    }
+  });
+});
+
+// === DISCORD STATUS & AVATAR (Lanyard) ===
+fetch('https://api.lanyard.rest/v1/users/563697359423406082')
+  .then(res => res.json())
+  .then(data => {
+    const d = data.data;
+    const avatarImg = document.getElementById('discord-avatar');
+    const discordStatus = document.getElementById('discord-status');
+    const lanyardStatus = document.getElementById('lanyard-status');
+
+    if (d) {
+      const status = d.discord_status === 'online' ? 'Online' : 'Offline';
+      avatarImg.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
+      discordStatus.textContent = status;
+      discordStatus.className = `status ${d.discord_status}`;
+      lanyardStatus.textContent = status;
+      lanyardStatus.className = d.discord_status;
+    }
+  })
+  .catch(() => {
+    const discordStatus = document.getElementById('discord-status');
+    const lanyardStatus = document.getElementById('lanyard-status');
+    discordStatus.textContent = 'Offline';
+    lanyardStatus.textContent = 'Offline';
+    discordStatus.className = 'status offline';
+    lanyardStatus.className = 'offline';
+  });
+
+// === NINTENDO PRESENCE ===
 function loadNintendoPresence() {
   const avatar = document.getElementById('nintendo-avatar');
   const statusText = document.getElementById('nintendo-status');
@@ -25,12 +73,12 @@ function loadNintendoPresence() {
         statusText.innerText = 'Status unknown.';
       }
     })
-    .catch(err => {
+    .catch(() => {
       statusText.innerText = 'Failed to load Nintendo presence.';
     });
 }
 
-// Helper function to convert timestamp to relative time
+// === Convert timestamp to time ago ===
 function timeAgo(date) {
   const seconds = Math.floor((new Date() - date) / 1000);
   const intervals = [
