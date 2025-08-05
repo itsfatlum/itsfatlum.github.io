@@ -22,7 +22,10 @@ fetch('https://api.lanyard.rest/v1/users/563697359423406082')
   .then(data => {
     const d = data.data;
     if (d) {
+      // Set profile picture
       avatarImg.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
+
+      // Set status
       const status = d.discord_status === 'online' ? 'Online' : 'Offline';
       discordStatus.textContent = status;
       discordStatus.className = `status ${d.discord_status}`;
@@ -33,12 +36,14 @@ fetch('https://api.lanyard.rest/v1/users/563697359423406082')
   .catch(() => {
     discordStatus.textContent = 'Offline';
     discordStatus.className = 'status offline';
+    lanyardStatus.textContent = 'Offline';
+    lanyardStatus.className = 'offline';
   });
 
 // === Nintendo Presence Loader ===
 function loadNintendoPresence() {
   const out = document.getElementById('nintendo-output');
-  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9s?include-splatoon3=1')
+  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9/events?include-splatoon3=1')
     .then(res => res.json())
     .then(data => {
       const latest = data?.events?.[0];
