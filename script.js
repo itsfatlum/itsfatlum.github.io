@@ -1,62 +1,52 @@
-// === Tab Switching Logic ===
-const tabs = document.querySelectorAll('.nav-buttons button');
-const sections = document.querySelectorAll('.tab-section');
-
-tabs.forEach(button => {
-  button.addEventListener('click', () => {
-    const selected = button.getAttribute('data-tab');
-    sections.forEach(section => {
-      section.classList.toggle('active', section.id === selected);
-    });
-    if (selected === 'nintendo') loadNintendoPresence();
-  });
-});
-
-// === Discord Avatar and Status ===
-const avatarImg = document.getElementById('discord-avatar');
-const discordStatus = document.getElementById('discord-status');
-const lanyardStatus = document.getElementById('lanyard-status');
-
-fetch('https://api.lanyard.rest/v1/users/563697359423406082')
-  .then(res => res.json())
-  .then(data => {
-    const d = data.data;
-    if (d) {
-      // Set profile picture
-      avatarImg.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
-
-      // Set status
-      const status = d.discord_status === 'online' ? 'Online' : 'Offline';
-      discordStatus.textContent = status;
-      discordStatus.className = `status ${d.discord_status}`;
-      lanyardStatus.textContent = status;
-      lanyardStatus.className = d.discord_status;
-    }
-  })
-  .catch(() => {
-    discordStatus.textContent = 'Offline';
-    discordStatus.className = 'status offline';
-    lanyardStatus.textContent = 'Offline';
-    lanyardStatus.className = 'offline';
-  });
-
-// === Nintendo Presence Loader ===
 function loadNintendoPresence() {
-  const out = document.getElementById('nintendo-output');
-  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9/events?include-splatoon3=1')
+  const avatar = document.getElementById('nintendo-avatar');
+  const statusText = document.getElementById('nintendo-status');
+
+  fetch('https://nxapi-presence.fancy.org.uk/api/presence/03e0f77eb2a15cd9?include-splatoon3=1')
     .then(res => res.json())
     .then(data => {
-      const latest = data?.events?.[0];
-      if (latest) {
-        out.innerHTML = `
-          Most recent activity: ${latest.name}<br>
-          Timestamp: ${new Date(latest.created_at).toLocaleString()}
+      const profile = data.presence?.user;
+      const online = data.presence?.online;
+      const lastSeen = data.presence?.last_seen;
+
+      if (profile) {
+        avatar.src = profile.avatar_url || '';
+      }
+
+      if (online) {
+        statusText.innerHTML = `<span style="color:#00ff88">Currently online on Nintendo Switch</span>`;
+      } else if (lastSeen) {
+        const ago = timeAgo(new Date(lastSeen));
+        statusText.innerHTML = `
+          <span style="color:#ff4e4e">Currently not online</span><br>
+          Last seen: ${ago}
         `;
       } else {
-        out.textContent = 'No recent Nintendo activity found.';
+        statusText.innerText = 'Status unknown.';
       }
     })
-    .catch(() => {
-      out.textContent = 'Failed to load Nintendo data.';
+    .catch(err => {
+      statusText.innerText = 'Failed to load Nintendo presence.';
     });
+}
+
+// Helper function to convert timestamp to relative time
+function timeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  const intervals = [
+    { label: 'year', seconds: 31536000 },
+    { label: 'month', seconds: 2592000 },
+    { label: 'day', seconds: 86400 },
+    { label: 'hour', seconds: 3600 },
+    { label: 'minute', seconds: 60 },
+    { label: 'second', seconds: 1 },
+  ];
+
+  for (const interval of intervals) {
+    const count = Math.floor(seconds / interval.seconds);
+    if (count >= 1) {
+      return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
+    }
+  }
+  return 'just now';
 }
